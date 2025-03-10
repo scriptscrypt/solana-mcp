@@ -1,0 +1,24 @@
+# Smithery.ai configuration
+startCommand:
+  type: stdio
+  configSchema:
+    # JSON Schema defining the configuration options for the MCP.
+    type: object
+    properties:
+      logLevel:
+        type: string
+        enum: ["error", "warn", "info", "debug"]
+        default: "info"
+        description: "Logging level for the MCP server"
+    additionalProperties: false
+  commandFunction: |-
+    (config) => ({
+      "command": "node",
+      "args": [
+        "dist/index.js"
+      ],
+      "env": {
+        "LOG_LEVEL": config.logLevel || "info",
+        "NODE_ENV": "production"
+      }
+    }) 
